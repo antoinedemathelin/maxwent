@@ -1,0 +1,7 @@
+README.md
+setup.py
+maxwent/__init__.py
+maxwent.egg-info/PKG-INFO
+maxwent.egg-info/SOURCES.txt
+maxwent.egg-info/dependency_links.txt
+maxwent.egg-info/top_level.txt
