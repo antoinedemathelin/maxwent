@@ -1,4 +1,5 @@
 *.ipynb_checkpoints
+*.ipynb
 __pycache__
 
 # Distribution / packaging
@@ -21,4 +22,3 @@ docs_build/
 docs/html/
 docs/doctrees/
 datasets/
-*.ipynb
