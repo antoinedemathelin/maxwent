@@ -1,6 +1,7 @@
 import tensorflow as tf
 from maxwent import MaxWEnt, set_maxwent_model
 
+
 def test_minimal():
     X = tf.ones((10, 2))
     y = tf.ones((10,))
