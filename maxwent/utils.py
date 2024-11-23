@@ -1,13 +1,21 @@
 import tensorflow as tf
 from tensorflow.keras.models import clone_model
-from .layers import (DenseMaxWEnt,
+from layers import (DenseMaxWEnt,
+                    Conv1DMaxWEnt,
+                    Conv2DMaxWEnt,
+                    Conv3DMaxWEnt,
                     DropoutOff,
                     SpatialDropout1DOff,
                     SpatialDropout2DOff,
                     SpatialDropout3DOff)
 
 
-CONSTRUCTORS = {"Dense": DenseMaxWEnt}
+CONSTRUCTORS = {
+    "Dense": DenseMaxWEnt,
+    "Conv1D": Conv1DMaxWEnt,
+    "Conv2D": Conv2DMaxWEnt,
+    "Conv3D": Conv3DMaxWEnt,
+}
 
 NO_TRAINING_LAYER = {
      "Dropout": DropoutOff,
