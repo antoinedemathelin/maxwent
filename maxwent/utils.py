@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.models import clone_model
-from layers import (DenseMaxWEnt,
+from . import (DenseMaxWEnt,
                     Conv1DMaxWEnt,
                     Conv2DMaxWEnt,
                     Conv3DMaxWEnt,
