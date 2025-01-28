@@ -7,5 +7,9 @@ setup(
     author="Antoine de Mathelin",
     author_email="antoine.demat@gmail.com",
     packages=find_packages(),
-    install_requires=[],  # List any dependencies here
+    install_requires=[],
+    extras_require={
+        'tf': ['tensorflow>=2.16'],
+        'torch': ['torch>=1.0'],
+    },
 )
