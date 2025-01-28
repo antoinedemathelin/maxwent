@@ -67,7 +67,7 @@ class SpatialDropout3DOff(tf.keras.layers.SpatialDropout3D):
 
 
 class DenseMaxWEnt(tf.keras.layers.Dense):
-    
+
     def __init__(
         self,
         kernel_distrib="uniform",
@@ -85,6 +85,7 @@ class DenseMaxWEnt(tf.keras.layers.Dense):
         self.use_svd_ = False
         self.fit_svd_ = None
         self.clip_ = None
+        self.seed_ = None
     
     
     def build(self, input_shape):
@@ -127,12 +128,17 @@ class DenseMaxWEnt(tf.keras.layers.Dense):
     
     
     def _z_sample(self, kind, shape):
+        if self.seed_ is None:
+            rng = tf.random
+        else:
+            rng = tf.random.Generator.from_seed(self.seed_)
+        
         if kind == "normal":
-            z = tf.random.normal(shape)
+            z = rng.normal(shape)
         elif kind == "uniform":
-            z = tf.random.uniform(shape) * 2. - 1.
+            z = rng.uniform(shape) * 2. - 1.
         elif kind == "bernoulli":
-            z = tf.random.uniform(shape)
+            z = rng.uniform(shape)
             z = tf.cast(tf.math.greater(0.5, z), self.kernel.dtype) * 2. - 1.
         else:
             raise ValueError("Unknow noise distribution")
@@ -269,12 +275,17 @@ class BaseConvMaxWEnt(BaseConv):
         self.maxwent_Vmatrix.assign(tf.eye(self.dim_vmatrix_))
     
     def _z_sample(self, kind, shape):
+        if self.seed_ is None:
+            rng = tf.random
+        else:
+            rng = tf.random.Generator.from_seed(self.seed_)
+        
         if kind == "normal":
-            z = tf.random.normal(shape)
+            z = rng.normal(shape)
         elif kind == "uniform":
-            z = tf.random.uniform(shape) * 2. - 1.
+            z = rng.uniform(shape) * 2. - 1.
         elif kind == "bernoulli":
-            z = tf.random.uniform(shape)
+            z = rng.uniform(shape)
             z = tf.cast(tf.math.greater(0.5, z), self.kernel.dtype) * 2. - 1.
         else:
             raise ValueError("Unknow noise distribution")
@@ -339,6 +350,7 @@ class Conv1DMaxWEnt(BaseConvMaxWEnt):
         self.use_svd_ = False
         self.fit_svd_ = None
         self.clip_ = None
+        self.seed_ = None
     
     def fit_svd(self, inputs, mode="train"):        
         if mode == "start":
@@ -406,6 +418,7 @@ class Conv2DMaxWEnt(BaseConvMaxWEnt):
         self.use_svd_ = False
         self.fit_svd_ = None
         self.clip_ = None
+        self.seed_ = None
     
     def fit_svd(self, inputs, mode="train"):        
         if mode == "start":
@@ -477,6 +490,7 @@ class Conv3DMaxWEnt(BaseConvMaxWEnt):
         self.use_svd_ = False
         self.fit_svd_ = None
         self.clip_ = None
+        self.seed_ = None
     
     def fit_svd(self, inputs, mode="train"):        
         if mode == "start":

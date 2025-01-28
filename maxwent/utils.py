@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.models import clone_model
-from .layers import (DenseMaxWEnt,
+from layers import (DenseMaxWEnt,
                     Conv1DMaxWEnt,
                     Conv2DMaxWEnt,
                     Conv3DMaxWEnt,
@@ -17,6 +17,8 @@ CONSTRUCTORS = {
     "Conv3D": Conv3DMaxWEnt,
 }
 
+# BatchNorm is not here because 'trainable = False' implies
+# 'training = False' in call
 NO_TRAINING_LAYER = {
      "Dropout": DropoutOff,
      "SpatialDropout1D": SpatialDropout1DOff,
@@ -27,9 +29,9 @@ NO_TRAINING_LAYER = {
 
 def _replace_layer(layer, dropout_off=True):
     class_name = layer.__class__.__name__
+    config = layer.get_config()
+    config["name"] += "_mwe"
     if class_name in CONSTRUCTORS:
-        config = layer.get_config()
-        config["name"] += "_maxwent"
         new_layer = CONSTRUCTORS[class_name].from_config(config)
         new_layer.build(layer.input.shape)
         if hasattr(layer, "kernel") and layer.kernel is not None:
@@ -39,16 +41,20 @@ def _replace_layer(layer, dropout_off=True):
             new_layer.bias.assign(tf.identity(layer.bias))
             new_layer.bias.trainable = False
         return new_layer
-    elif class_name in NO_TRAINING_LAYER:
-        config = layer.get_config()
-        config["name"] += "_off"
-        new_layer = NO_TRAINING_LAYER[class_name].from_config(config)
-        return new_layer
     else:
-        return layer
+        if class_name in NO_TRAINING_LAYER:
+            new_layer = NO_TRAINING_LAYER[class_name].from_config(config)
+        else:
+            new_layer = layer.__class__.from_config(config)
+        new_layer.build(layer.input.shape)
+        new_layer.set_weights(layer.get_weights())
+        new_layer.trainable = False
+        return new_layer
 
 
-def set_maxwent_model(model, dropout_off=True):
+def set_maxwent_model(model, dropout_off=False):
+    # XXX dropout_off to False per default. Maybe this feature can be removed
+    # More layers use Dropout (e.g., Attention layer)
     clone_function = lambda x: _replace_layer(x, dropout_off=dropout_off)
     new_model = clone_model(model, clone_function=clone_function)
     return new_model
