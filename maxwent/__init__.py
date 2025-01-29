@@ -47,7 +47,7 @@ def _import_framework_submodule():
             warnings.warn(
                 "Both TensorFlow and PyTorch are installed. Defaulting to TensorFlow.\n"
                 "You can change the framework by calling `set_framework('torch')` or `set_framework('tf')`.\n"
-                "You can also directly import the functions through the 'maxwent._tf' and 'maxwent._torch' modules.",
+                "You can also directly import the functions through the 'maxwent._tf' and 'maxwent._torch' modules.\n",
                 UserWarning
             )
     elif _pytorch_installed:
