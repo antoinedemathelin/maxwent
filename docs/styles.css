@@ -1,0 +1,273 @@
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Root Variables for Theme */
+:root {
+  --primary-color: #1a73e8; /* Main theme color */
+  --secondary-color: #f4f4f4; /* Light background */
+  --text-color: #333; /* Main text color */
+  --background-color: #fff; /* Page background */
+  --footer-text-color: #666; /* Footer text color */
+  --box-shadow-color: rgba(0, 0, 0, 0.1); /* Light shadow */
+  --box-radius: 12px; /* Rounded corners */
+}
+
+/* Body Styling */
+body {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+
+/* Page Layout */
+.page-container {
+  display: grid;
+  grid-template-columns: 15% 70% 15%;
+  grid-template-rows: 30px 1fr auto;
+  grid-template-areas: 
+    "header header header"
+    "bandeau main bandeau-right" /* Left bandeau, main content, right bandeau */
+    "footer footer footer"; /* Footer at the bottom */
+}
+
+
+/* Header Styling */
+.header {
+  grid-area: header;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 8px var(--box-shadow-color);
+  z-index: 1000;
+}
+
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+/* Right Bandeau (Right Sidebar) Styling */
+.bandeau-right {
+  grid-area: bandeau-right;
+  position: fixed;
+  width: 15%;
+  top: 0;
+  right: 0; /* Align it to the right side */
+  height: 100vh; /* Full height */
+  background-color: var(--background-color);
+  padding-top: 4rem; /* Space for header */
+  box-shadow: -2px 0 8px var(--box-shadow-color); /* Shadow on the left side of the right sidebar */
+  z-index: 999;
+  overflow-y: auto; /* Enable scrolling if necessary */
+}
+
+/* Table of Contents container */
+.toc-container {
+  padding: 1rem; /* Add some padding around the ToC */
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+/* Table of Contents heading */
+.toc-container h3 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 1rem; /* Add space below the title */
+  color: var(--primary-color); /* Use the primary color for the title */
+  text-align: center; /* Center-align the title */
+}
+
+/* Remove bullet points from the list */
+.toc-container ul {
+  list-style-type: none; /* Remove default bullet points */
+  padding: 0;
+  margin: 0;
+}
+
+/* Style individual ToC items */
+.toc-container li {
+  margin-bottom: 0.5rem; /* Add spacing between items */
+}
+
+/* Style the links in ToC */
+.toc-container a {
+  text-decoration: none; /* Remove underline from links */
+  color: var(--primary-color); /* Use the primary color for links */
+  font-weight: bold;
+  font-size: 1.1rem; /* Slightly larger font size for links */
+  transition: color 0.3s ease, background-color 0.3s ease; /* Smooth color and background transition on hover */
+  display: block; /* Make the link block-level to fill the available space */
+  padding: 5px 10px; /* Add some padding to make it easier to click */
+}
+
+/* Style the active (current) ToC item */
+.toc-container a.active {
+  color: rgba(29, 29, 29, 0.8); /* Change text color for the active item */
+  font-weight: bold;
+  background-color: rgba(173, 216, 230, 0.3); /* Pale blue with slight transparency */
+  transition: background-color 0.3s ease;
+}
+
+/* Style the inactive ToC items */
+.toc-container a:not(.active) {
+  color: rgba(129, 129, 129, 0.8); /* Default text color for inactive items */
+}
+
+/* Hover effect for the links */
+.toc-container a:hover {
+  color: rgba(220, 220, 220, 0.8); /* Change text color on hover */
+}
+
+
+
+/* Bandeau (Sidebar) Styling */
+.bandeau {
+  grid-area: bandeau;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 15%;
+  height: 100vh; /* Full height */
+  background-color: var(--secondary-color);
+  padding-top: 4rem; /* Space for header */
+  box-shadow: 2px 0 8px var(--box-shadow-color);
+  z-index: 999;
+  overflow-y: auto; /* Enable scrolling if necessary */
+}
+
+
+
+.bandeau ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bandeau li {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.bandeau a {
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.bandeau a:hover {
+  color: #0056b3;
+}
+
+
+/* Main Content Styling */
+.main {
+  grid-area: main;
+  padding: 2rem;
+  overflow-y: auto;
+  background-color: #fff;
+}
+
+/* Title Section */
+.title {
+  text-align: center; /* Center-align text */
+  padding: 2rem; /* Space inside the container */
+  background-color: var(--secondary-color); /* Light background */
+  color: var(--text-color); /* Main text color */
+  border-radius: var(--box-radius); /* Rounded corners for aesthetic */
+  box-shadow: 0 4px 8px var(--box-shadow-color); /* Subtle shadow */
+  margin-bottom: 2rem; /* Spacing below the title section */
+}
+
+.title h1 {
+  font-size: 2.5rem; /* Large title font */
+  color: var(--primary-color); /* Use primary color for title */
+  margin-bottom: 0.5rem; /* Space between title and paragraph */
+}
+
+.title p {
+  font-size: 1.2rem; /* Slightly smaller font for the subtitle */
+  color: var(--text-color); /* Match main text color */
+  margin: 0; /* No extra margin for paragraph */
+}
+
+/* Section Styling */
+.section {
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: var(--box-radius);
+  box-shadow: 0 4px 8px var(--box-shadow-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+.section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.section h2 {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.section p {
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+
+/* Footer Styling */
+.footer {
+  grid-area: footer; /* Footer in the last row of grid */
+  grid-column: 2 / span 1;
+  text-align: center;
+  padding: 1rem 0;
+  background-color: #fff;  /* Match page background */
+  border-top: 1px solid #eaeaea;
+}
+
+.footer p {
+  font-size: 0.9rem;
+  color: var(--footer-text-color);
+}
+
+
+@media only screen and (max-width: 900px) {
+.bandeau-right {
+display: none; /* Hide the right bandeau on small screens */
+}
+
+.page-container {
+	grid-template-columns: 20% 80%; /* Main content and left bandeau */
+  }
+
+.bandeau {
+width: 20%; /* Optionally adjust the left bandeau width for smaller screens */
+}
+
+
+
+@media only screen and (max-width: 760px) {
+.jp-InputArea-editor {
+display: table-cell !important;
+}
+}
+

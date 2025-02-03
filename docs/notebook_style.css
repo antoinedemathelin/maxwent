@@ -1,0 +1,78 @@
+/* Style for the code editor container */
+.jp-CodeMirrorEditor {
+  margin: 10px 0;  /* Adds some space around the editor */
+  padding: 10px;  /* Padding inside the code editor */
+  border-radius: 10px !important;  /* Rounded corners for the code editor */
+  background-color: #f0f0f0;  /* Light grey background for the editor */
+  position: relative;  /* Ensure it's positioned correctly for the inner shadow */
+  border: 1px solid #ddd;  /* Light border around the inner area */
+  padding: 15px;  /* Padding inside the input area */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 4px 8px rgba(0, 0, 0, 0.2);  /* Accentuated inner shadow */
+  transition: box-shadow 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for the code editor container */
+.jp-CodeMirrorEditor:hover {
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1), inset 0 4px 8px rgba(0, 0, 0, 0.1);  /* Lighten inner shadow on hover */
+}
+
+
+
+/* Override the square corners of the input area */
+.jp-InputArea-editor {
+  border-radius: 10px !important;  /* Match the rounded corners of the editor */
+}
+
+/* Style for the actual code text */
+.jp-CodeMirrorEditor pre {
+  font-size: 14px !important;
+  color: #333;  /* Dark grey text color */
+  line-height: 1.5;
+  margin: 0;  /* Remove margin for tighter code box */
+  white-space: pre-wrap;  /* Allow code to wrap within the box */
+}
+
+.jp-RenderedHTMLCommon.jp-RenderedMarkdown.jp-MarkdownOutput {
+	font-family: 'Courier New', Courier, monospace !important; 
+	color: var(--text-color) !important; 
+	line-height: 1.6 !important; 
+	font-weight: 500 !important; 
+}
+
+
+
+:root {
+  --jp-cell-editor-background: #fff !important;  /* Set the background color to white */
+}
+
+
+:root {
+--jp-mirror-editor-keyword-color: #3f6ec6 !important;  /* Marine Blue for keywords */
+--jp-mirror-editor-atom-color: #c5a5c5 !important;    /* Light Gray */
+--jp-mirror-editor-number-color: #080 !important;  /* Light Green for numbers */
+--jp-mirror-editor-def-color: #007acc !important;     /* Blue for function definitions */
+--jp-mirror-editor-variable-color: #36464e !important; /* Black for variables */
+--jp-mirror-editor-variable-2-color: #36464e !important; /* Purple for package names */
+--jp-mirror-editor-variable-3-color: #36464e !important; /* Light Yellow */
+--jp-mirror-editor-punctuation-color: #d4d4d4 !important; /* Light Gray for punctuation */
+--jp-mirror-editor-property-color:#36464e !important;  /* Black for properties */
+--jp-mirror-editor-operator-color: #a2f !important;  /* Red for operators */
+--jp-mirror-editor-comment-color: #6a9955 !important;  /* Green for comments */
+--jp-mirror-editor-string-color: #ba2121 !important;    /* Light Brown for strings */
+--jp-mirror-editor-string-2-color: #a15c2c !important;  /* Green for string 2 */
+--jp-mirror-editor-meta-color: #36464e !important;      /* Black for meta */
+--jp-mirror-editor-qualifier-color: #36464e !important; /* Black for qualifiers */
+--jp-mirror-editor-builtin-color: #d73a49 !important;   /* Red for built-ins */
+--jp-mirror-editor-bracket-color: #0000008a !important;   /* Light Gray for brackets */
+--jp-mirror-editor-tag-color: #569cd6 !important;       /* Blue for tags */
+--jp-mirror-editor-attribute-color: #00c !important;     /* Cyan for attributes */
+--jp-mirror-editor-header-color: #d73a49 !important;    /* Red for headers */
+--jp-mirror-editor-quote-color: #d4d4d4 !important;     /* Light Gray for quotes */
+--jp-mirror-editor-link-color: #36464e !important;      /* Black for links */
+--jp-mirror-editor-error-color: #f00 !important;        /* Red for errors */
+--jp-mirror-editor-hr-color: #999 !important;           /* Light Gray for horizontal rules */
+--jp-mirror-editor-punctuation-color: #0000008a !important;
+
+}
+
+
