@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 def regression_1d(state=123, n_samples=100, noise=0.02):
@@ -41,6 +40,14 @@ def classification_2d(state=0, n_samples=200, noise=0.1):
 
 
 def plot_regression_1d(x_train, y_train, x_ood, y_ood):
+
+    try:
+        import matplotlib.pyplot as plt
+    except:
+        raise ImportError("The matplotlib library is not installed."
+                            " The plot_regression_1d function requires the"
+                            " matplotlib library.")
+
     fig, ax = plt.subplots(1, 1, figsize=(7, 5))
         
     ax.plot(x_ood.ravel(), y_ood, c="k", label="Ground truth")
@@ -54,6 +61,14 @@ def plot_regression_1d(x_train, y_train, x_ood, y_ood):
 
 
 def plot_classification_2d(x_train, y_train, x_ood):
+
+    try:
+        import matplotlib.pyplot as plt
+    except:
+        raise ImportError("The matplotlib library is not installed."
+                            " The plot_classification_2d function requires the"
+                            " matplotlib library.")
+
     fig, ax = plt.subplots(1, 1, figsize=(6, 4))
         
     ax.plot(x_train[y_train==0, 0], x_train[y_train==0, 1], 'o',
