@@ -25,6 +25,16 @@ body {
   font-weight: 500;
 }
 
+a {
+  color: inherit; /* Uses the text color of the parent element */
+  text-decoration: none; /* Removes underline if needed */
+}
+
+a:hover {
+  color: inherit; /* Keep the inherited color */
+  opacity: 0.7;
+}
+
 
 /* Page Layout */
 .page-container {
@@ -90,6 +100,7 @@ body {
   margin-bottom: 1rem; /* Add space below the title */
   color: var(--primary-color); /* Use the primary color for the title */
   text-align: center; /* Center-align the title */
+  text-decoration: underline;
 }
 
 /* Remove bullet points from the list */
@@ -101,7 +112,7 @@ body {
 
 /* Style individual ToC items */
 .toc-container li {
-  margin-bottom: 0.5rem; /* Add spacing between items */
+  margin-bottom: 0; /* Add spacing between items */
 }
 
 /* Style the links in ToC */
@@ -109,7 +120,6 @@ body {
   text-decoration: none; /* Remove underline from links */
   color: var(--primary-color); /* Use the primary color for links */
   font-weight: bold;
-  font-size: 1.1rem; /* Slightly larger font size for links */
   transition: color 0.3s ease, background-color 0.3s ease; /* Smooth color and background transition on hover */
   display: block; /* Make the link block-level to fill the available space */
   padding: 5px 10px; /* Add some padding to make it easier to click */
@@ -125,7 +135,7 @@ body {
 
 /* Style the inactive ToC items */
 .toc-container a:not(.active) {
-  color: rgba(129, 129, 129, 0.8); /* Default text color for inactive items */
+  color: rgba(79, 79, 79, 0.8); /* Default text color for inactive items */
 }
 
 /* Hover effect for the links */

@@ -1,4 +1,5 @@
 import tensorflow as tf
+import numpy as np
 
 
 class MaxWEnt(tf.keras.Model):
@@ -59,14 +60,23 @@ class MaxWEnt(tf.keras.Model):
 
 
     def fit_svd(self, x, batch_size=32):
-        dummy = x[:1]
-        data = tf.data.Dataset.from_tensor_slices(x).batch(batch_size)
+        if not isinstance(x, tf.data.Dataset):
+            num_steps = int(np.ceil(len(x) / batch_size))
+            data = tf.data.Dataset.from_tensor_slices(x).batch(batch_size)
+        else:
+            num_steps = None
+            data = x
+        dummy = next(iter(data))
         for layer in self.network.layers:
             if hasattr(layer, "fit_svd_"):
                 layer.fit_svd_ = "start"
         self.network(dummy, training=False)
+        step = 0
         for batch in data:
             self.network(batch, training=False)
+            step += 1
+            if num_steps is not None and step == num_steps:
+                break
         for layer in self.network.layers:
             if hasattr(layer, "fit_svd_"):
                 layer.fit_svd_ = "end"
@@ -75,13 +85,19 @@ class MaxWEnt(tf.keras.Model):
 
     def predict(self, x, batch_size=32, clip=None, seed=None):
         if not isinstance(x, tf.data.Dataset):
+            num_steps = int(np.ceil(len(x) / batch_size))
             data = tf.data.Dataset.from_tensor_slices(x).batch(batch_size)
         else:
+            num_steps = None
             data = x
         outputs = []
+        step = 0
         for batch in data:
             out = self.call(batch, training=False, clip=clip, seed=seed)
             outputs.append(out)
+            step += 1
+            if num_steps is not None and step == num_steps:
+                break
         return tf.concat(outputs, axis=0).numpy()
 
 

@@ -2,7 +2,17 @@ import os
 import importlib
 import warnings
 
+from .example_utils import (regression_1d,
+                            classification_2d,
+                            plot_regression_1d,
+                            plot_classification_2d)
+
 _MAXWENT_FRAMEWORK = "tf"
+
+def custom_format(message, category, filename, lineno, file=None, line=None):
+    return f"{category.__name__}: {message}\n"
+
+warnings.formatwarning = custom_format
 
 def set_framework(framework: str):
     """
@@ -46,8 +56,8 @@ def _import_framework_submodule():
         if _pytorch_installed:
             warnings.warn(
                 "Both TensorFlow and PyTorch are installed. Defaulting to TensorFlow.\n"
-                "You can change the framework by calling `set_framework('torch')` or `set_framework('tf')`.\n"
-                "You can also directly import the functions through the 'maxwent._tf' and 'maxwent._torch' modules.\n",
+                "You can change the framework by calling `maxwent.set_framework('torch')` or `maxwent.set_framework('tf')`.\n"
+                "You can also directly import the functions through the 'maxwent.tf' and 'maxwent.tch' modules.\n",
                 UserWarning
             )
     elif _pytorch_installed:
