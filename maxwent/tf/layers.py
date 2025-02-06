@@ -459,6 +459,69 @@ class BaseConvMaxWEnt(BaseConv):
         """
         pass
 
+class Conv1DMaxWEnt(BaseConvMaxWEnt):
+    def __init__(
+            self,
+            kernel_distrib="uniform",
+            bias_distrib="uniform",
+            kernel_var_init=-7.,
+            bias_var_init=-7.,
+            **kwargs,
+        ):
+        super().__init__(rank=1, **kwargs)
+        self.kernel_distrib = kernel_distrib
+        self.bias_distrib = bias_distrib
+        self.kernel_var_init = kernel_var_init
+        self.bias_var_init = bias_var_init
+        self.use_svd_ = False
+        self.fit_svd_ = None
+        self.clip_ = None
+        self.seed_ = None
+    
+    def fit_svd(self, inputs, mode="train"):        
+        if mode == "start":
+            self.XTX_ = tf.zeros(self.maxwent_Vmatrix.shape)
+            self.n_ = 0
+            self.fit_svd_ = "train"
+        
+        elif mode == "train":
+            if self.data_format != "channels_last":
+                perm = [i for i in range(inputs.ndim) if i != 1] + [1]
+                inputs = tf.transpose(inputs, perm=perm)
+    
+            input_channel = inputs.shape[-1]
+    
+            patching_kernel = tf.eye(self.kernel_size[0] * input_channel)
+            patching_kernel = tf.reshape(patching_kernel,
+                                         [self.kernel_size[0], input_channel,
+                                         self.kernel_size[0] * input_channel])
+            
+            patches = tf.nn.conv1d(
+                inputs,
+                filters=patching_kernel,
+                stride=self.strides[0],
+                padding=self.padding.upper()
+            )
+    
+            patches = tf.reshape(patches, (-1, patches.shape[-1]))
+            print(patches.shape)
+            
+            self.XTX_ += tf.matmul(tf.transpose(patches), patches)
+            self.n_ += patches.shape[0]
+        
+        elif mode == "end":
+            self.XTX_ /= tf.cast(self.n_, self.XTX_.dtype)
+            _, V = tf.linalg.eig(self.XTX_)
+            V = tf.math.real(V)
+            V = tf.cast(V, dtype=self.maxwent_Vmatrix.dtype)
+            self.maxwent_Vmatrix.assign(V)
+            self.fit_svd_ = None
+            self.use_svd_ = True
+            delattr(self, "XTX_")
+            delattr(self, "n_")
+        
+        else:
+            raise ValueError("mode should be in [start, train, end]")
 
 class Conv2DMaxWEnt(BaseConvMaxWEnt):
 
