@@ -110,7 +110,7 @@ def generate_page(content_file, output_file):
     title = os.path.basename(content_file).split('.')[0].replace('-', ' ').title()
     title = title.replace("_", " ")
 
-    if ".ipynb" in content_file:
+    if "Example" in content_file:
     # Replace the placeholder in the header with the actual title
         header = header.replace("Maximum Weight Entropy", title)
 

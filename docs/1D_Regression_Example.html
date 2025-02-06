@@ -21,7 +21,7 @@
   <div class='bandeau-right'><div class="toc-container"><h3>Table of Contents</h3><ul><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#Setup">Setup</a></li><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#Base-Network">Base Network</a></li><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#Deep-Ensemble">Deep Ensemble</a></li><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#Maximum-Weight-Entropy">Maximum Weight Entropy</a></li><li style="margin-left: 25px; font-size: 0.9rem;"><a href="#Stochasticity">Stochasticity</a></li><li style="margin-left: 25px; font-size: 0.9rem;"><a href="#Objective-Function">Objective Function</a></li><li style="margin-left: 25px; font-size: 0.9rem;"><a href="#Training">Training</a></li><li style="margin-left: 25px; font-size: 0.9rem;"><a href="#Inference">Inference</a></li><li style="margin-left: 25px; font-size: 0.9rem;"><a href="#Clipping">Clipping</a></li><li style="margin-left: 25px; font-size: 0.9rem;"><a href="#Uncertainty-Quantification">Uncertainty Quantification</a></li><li style="margin-left: 25px; font-size: 0.9rem;"><a href="#SVD-Parameterization">SVD Parameterization</a></li></ul></div></div>
   <header class="header">
   <div class="container">
-    <h1>Maximum Weight Entropy</h1>
+    <h1>1D Regression Example</h1>
   </div>
 </header>
 
@@ -8061,7 +8061,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The parameter <code>lambda_</code> controls the trade-off between the two objectives. Increasing <code>lambda_</code> encourages greater weight diversity, but it should not be set too high, as this may excessively deteriorate the model’s accuracy on the training data. The number of training epochs also plays a role in this process. Typically, a larger <code>lambda_</code> can achieve higher weight diversity with fewer epochs, but beyond a certain point, the training loss may increase drastically. A practical heuristic is to increase both λ and the number of epochs as much as possible without causing the training loss to become unstable. Smaller values of <code>lambda_</code> result in a more gradual increase in weight entropy, which allows for greater flexibility in the final stages of training. However, this can also lead to a longer training time before a significant increase in weight entropy occurs.</p>
+<p>The parameter <code>lambda_</code> controls the trade-off between the two objectives. Increasing <code>lambda_</code> encourages greater weight diversity, but it should not be set too high, as this may excessively deteriorate the model’s accuracy on the training data. The number of training epochs also plays a role in this process. Typically, a larger <code>lambda_</code> can achieve higher weight diversity with fewer epochs, but beyond a certain point, the training loss may increase drastically. A practical heuristic is to increase both <code>lambda_</code> and the number of epochs as much as possible without causing the training loss to become unstable. Smaller values of <code>lambda_</code> result in a more gradual increase in weight entropy, which allows for greater flexibility in the final stages of training. However, this can also lead to a longer training time before a significant increase in weight entropy occurs.</p>
 </div>
 </div>
 </div>
