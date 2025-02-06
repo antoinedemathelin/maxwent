@@ -28,6 +28,12 @@ NO_TRAINING_LAYER = {
 
 
 def _replace_layer(layer, dropout_off=True):
+    """
+    Creates a modified version of the given layer with adjusted configurations.
+
+    This function replaces specific layers as Dense and Conv by their 
+    corresponding stochastic version.
+    """
     class_name = layer.__class__.__name__
     config = layer.get_config()
     config["name"] += "_mwe"
@@ -53,6 +59,21 @@ def _replace_layer(layer, dropout_off=True):
 
 
 def set_maxwent_model(model, dropout_off=False):
+    """
+    Creates a stochastic version of the given model where specific layers are replaced.
+
+    This function clones the given model while replacing specific layers as Dense and Conv by their 
+    corresponding stochastic version.
+
+    IMPORTANT: the model should be pretrained on training data. The weights of the model
+    will be used in the stochastic model version as frozen mean weights.
+
+    Args:
+        model (tf.keras.Model): The original pretrained Keras model to be modified.
+
+    Returns:
+        tf.keras.Model: A new model instance with modified layers.
+    """
     # XXX dropout_off to False per default. Maybe this feature can be removed
     # More layers use Dropout (e.g., Attention layer)
     clone_function = lambda x: _replace_layer(x, dropout_off=dropout_off)
