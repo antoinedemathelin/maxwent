@@ -2,6 +2,15 @@ import os
 import re
 import subprocess
 from bs4 import BeautifulSoup
+import textwrap
+import inspect
+import sys
+
+sys.path.append("../")
+from maxwent.tf.model import MaxWEnt
+from maxwent.tf.layers import DenseMaxWEnt, Conv1DMaxWEnt
+from maxwent.tf.utils import set_maxwent_model
+
 
 # Define file paths
 HEADER_FILE = "header.html"
@@ -9,6 +18,7 @@ BANDEAU_FILE = "bandeau.html"
 FOOTER_FILE = "footer.html"
 CONTENT_DIR = "content"  # Folder where your content files are stored
 OUTPUT_DIR = "./"        # Folder to save the generated pages
+PYTHON_OBJ = [MaxWEnt, DenseMaxWEnt, set_maxwent_model]
 
 # Ensure the output directory exists
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -91,6 +101,30 @@ def generate_dynamic_toc(content_html):
     
     return toc_html
 
+def extract_args_from_docstring(docstring):
+    """
+    Extracts the Args section from the docstring and returns it as a list of tuples.
+    Each tuple contains (argument_name, description).
+    """
+    args_section = re.search(r'Args:\s*([\s\S]+?)(Returns|$)', docstring)
+    if not args_section:
+        return []
+
+    # Extracting the content inside the Args section
+    args_content = args_section.group(1).strip()
+
+    # Parsing each argument and its description
+    args_list = []
+    for line in args_content.splitlines():
+        match = re.match(r'(\S+)\s*\(([^)]+)\):\s*(.*)', line.strip())
+        if match:
+            arg_name = match.group(1)
+            arg_type = match.group(2)
+            arg_desc = match.group(3)
+            args_list.append((arg_name, arg_type, arg_desc))
+    
+    return args_list
+
 # General function to generate a page
 def generate_page(content_file, output_file):
     # Read the individual components
@@ -129,6 +163,7 @@ def generate_page(content_file, output_file):
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="notebook_style.css">
+  <link rel="stylesheet" href="docstring_style.css">
   <title>{output_file.replace('.html', '').title()}</title>
 </head>
 <body>
@@ -150,6 +185,83 @@ def generate_page(content_file, output_file):
     with open(output_file, 'w', encoding='utf-8') as output_file_obj:
         output_file_obj.write(full_page)
     print(f"Page generated successfully: {output_file}")
+
+
+def generate_docstring_html(class_obj):
+    # Retrieve the class name and docstring
+    class_name = class_obj.__name__
+    class_doc = class_obj.__doc__
+
+    # Get methods and their docstrings
+    # methods = inspect.getmembers(class_obj, predicate=inspect.isfunction)
+
+    methods = {name: func for name, func in class_obj.__dict__.items() if callable(func)}
+
+    # Prepare method data (name, docstring, and argument details)
+    method_docs = []
+    for method_name, method in methods.items():
+        method_doc = method.__doc__
+        keep_method = (method_name[0] != "_") and (method_doc is not None)
+        if keep_method:
+        # Extract argument info
+            signature = inspect.signature(method)
+
+            args_list = extract_args_from_docstring(method_doc)
+
+            # Formatting the arguments section as a bullet list
+            formatted_args = "<ul>"
+            for arg_name, arg_type, arg_desc in args_list:
+                formatted_args += f"<li><b>{arg_name} ({arg_type}):</b> {arg_desc}</li>"
+            formatted_args += "</ul>"
+
+            method_docs.append({
+                'name': method_name,
+                'doc': textwrap.dedent(method_doc).strip().split("Args:")[0],
+                'args': str(signature).replace("self, ", ""),  # Remove 'self' from the argument list
+                'formatted_args': formatted_args
+            })
+
+    header = read_file(HEADER_FILE)
+    bandeau_left = read_file(BANDEAU_FILE)  # Left Bandeau
+    footer = read_file(FOOTER_FILE)
+    
+    args_list = extract_args_from_docstring(class_doc)
+    formatted_args_object = "<ul>"
+    for arg_name, arg_type, arg_desc in args_list:
+        formatted_args_object += f"<li><b>{arg_name} ({arg_type}):</b> {arg_desc}</li>"
+    formatted_args_object += "</ul>"
+
+    signature = inspect.signature(class_obj.__init__)
+    args = str(signature).replace("self, ", "")
+
+    doc = textwrap.dedent(class_obj.__doc__).strip().split("Args:")[0]
+
+    content = f"""
+    <div class="object">
+    <h1>{class_name}</h1>
+    <p class="doc"> {doc} </p>
+    <div class="args">Arguments: {args} </div>
+    <div class="formatted_args"> {formatted_args_object} </div>
+    </div>
+    """
+    
+    class_doc
+    for method in method_docs:
+        content += f"""
+        <div class="method">
+            <h2 id={method['name']}>{method['name']}</h2>
+            <p class="doc"> {method['doc']} </p>
+             <div class="args">Arguments: {method['args']} </div>
+            <div class="formatted_args">{method['formatted_args']}</div>
+        </div>
+        """
+
+    # Save HTML to a file
+    with open(f"{class_name}_documentation.html", "w") as f:
+        f.write(content)
+
+    return f"{class_name}_documentation.html"
+
 
 # Generate pages for each content file
 def generate_all_pages():
@@ -175,6 +287,13 @@ def generate_all_pages():
         # Delete the temporary HTML file generated by nbconvert after page generation
         if content_file.endswith('.ipynb') and os.path.exists(content_file_path):
             delete_temp_html_file(content_file_path)
+
+    # Generate page for each python object
+    for obj in PYTHON_OBJ:
+        content_file_path = generate_docstring_html(obj)
+        output_file = os.path.join(OUTPUT_DIR, content_file_path)
+        generate_page(content_file_path, output_file)
+
 
 # Run the script to generate all pages
 if __name__ == "__main__":

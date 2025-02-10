@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="notebook_style.css">
+  <link rel="stylesheet" href="docstring_style.css">
+  <title>./Densemaxwent_Documentation</title>
+</head>
+<body>
+<div class="page-container">
+  <nav class="bandeau">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="https://github.com/antoinedemathelin/maxwent" target="_blank">GitHub</a></li>
+    <li><a href="1D_Regression_Example.html" target="_blank">Examples</a></li>
+  </ul>
+</nav>
+
+  <div class='bandeau-right'><div class="toc-container"><h3>Table of Contents</h3><ul><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#build">build</a></li><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#call">call</a></li><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#fit_svd">fit_svd</a></li><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#save_own_variables">save_own_variables</a></li><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#load_own_variables">load_own_variables</a></li><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#get_config">get_config</a></li></ul></div></div>
+  <header class="header">
+  <div class="container">
+    <h1>Maximum Weight Entropy</h1>
+  </div>
+</header>
+
+  <main class="main">
+    
+    <div class="object">
+    <h1>DenseMaxWEnt</h1>
+    <p class="doc"> A custom stochastic Dense layer. 
+This layer introduces additional learnable noise distributions for the 
+kernel and bias.
+
+Note that only the variance parameters are trainable.
+The mean kernel and bias are non-trainable.
+
+ </p>
+    <div class="args">Arguments: (kernel_distrib='uniform', bias_distrib='uniform', kernel_var_init=-7.0, bias_var_init=-7.0, **kwargs) </div>
+    <div class="formatted_args"> <ul><li><b>kernel_distrib (str):</b> Distribution type for the kernel noise ('uniform', 'normal', or 'bernoulli').</li><li><b>bias_distrib (str):</b> Distribution type for the bias noise ('uniform', 'normal', or 'bernoulli').</li><li><b>kernel_var_init (float):</b> Initial value for the kernel variance parameters (Default -7).</li><li><b>bias_var_init (float):</b> Initial value for the bias variance parameters (Default -7).</li><li><b>use_svd_ (bool):</b> Flag indicating whether SVD parametirization should be applied.</li><li><b>fit_svd_ (str or None):</b> Mode indicating the SVD fitting phase ('start', 'train', 'end').</li><li><b>clip_ (float or None):</b> Clipping threshold for noise values.</li><li><b>seed_ (int or None):</b> Random seed for reproducibility.</li></ul> </div>
+    </div>
+    
+        <div class="method">
+            <h2 id=build>build</h2>
+            <p class="doc"> Builds the layer, initializing weights and additional MaxWEnt parameters.
+
+ </p>
+             <div class="args">Arguments: (input_shape) </div>
+            <div class="formatted_args"><ul><li><b>input_shape (tuple):</b> Shape of the input tensor.</li></ul></div>
+        </div>
+        
+        <div class="method">
+            <h2 id=call>call</h2>
+            <p class="doc"> Performs the forward pass, applying noise to kernel and bias.
+
+ </p>
+             <div class="args">Arguments: (inputs) </div>
+            <div class="formatted_args"><ul><li><b>inputs (tf.Tensor):</b> Input tensor to the layer.</li></ul></div>
+        </div>
+        
+        <div class="method">
+            <h2 id=fit_svd>fit_svd</h2>
+            <p class="doc"> Fit the Singular Value Decomposition (SVD) transition matrix on the input data.
+
+ </p>
+             <div class="args">Arguments: (inputs, mode='train') </div>
+            <div class="formatted_args"><ul><li><b>inputs (tf.Tensor):</b> Input data tensor.</li><li><b>mode (str):</b> The phase of SVD fitting ('start', 'train', 'end').</li></ul></div>
+        </div>
+        
+        <div class="method">
+            <h2 id=save_own_variables>save_own_variables</h2>
+            <p class="doc"> Saves layer variables to a storage dictionary.
+
+ </p>
+             <div class="args">Arguments: (store) </div>
+            <div class="formatted_args"><ul><li><b>store (dict):</b> Dictionary where variables will be stored.</li></ul></div>
+        </div>
+        
+        <div class="method">
+            <h2 id=load_own_variables>load_own_variables</h2>
+            <p class="doc"> Loads layer variables from a storage dictionary.
+
+ </p>
+             <div class="args">Arguments: (store) </div>
+            <div class="formatted_args"><ul><li><b>store (dict):</b> Dictionary containing stored variables.</li></ul></div>
+        </div>
+        
+        <div class="method">
+            <h2 id=get_config>get_config</h2>
+            <p class="doc"> Returns the configuration of the layer for serialization.
+
+Returns:
+    dict: A dictionary containing the layer configuration. </p>
+             <div class="args">Arguments: (self) </div>
+            <div class="formatted_args"><ul></ul></div>
+        </div>
+        
+  </main>
+  <footer class="footer">
+  <div class="container">
+    <p>&copy; 2024 Maxwent documentation. All rights reserved.</p>
+  </div>
+</footer>
+
+</div>
+<script src="custom.js"></script>
+</body>
+</html>

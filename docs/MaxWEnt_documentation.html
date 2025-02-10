@@ -1,17 +1,17 @@
-
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{ class_name } Documentation</title>
-        <link rel="stylesheet" href="styles.css">
-        <link rel="stylesheet" href="notebook_style.css">
-        <link rel="stylesheet" href="docstring_style.css">
-    </head>
-    <body>
-    <div class="page-container">
-    <nav class="bandeau">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="notebook_style.css">
+  <link rel="stylesheet" href="docstring_style.css">
+  <title>./Maxwent_Documentation</title>
+</head>
+<body>
+<div class="page-container">
+  <nav class="bandeau">
   <ul>
     <li><a href="index.html">Home</a></li>
     <li><a href="https://github.com/antoinedemathelin/maxwent" target="_blank">GitHub</a></li>
@@ -19,65 +19,89 @@
   </ul>
 </nav>
 
-    <div class='bandeau-right'></div>
-    <header class="header">
+  <div class='bandeau-right'><div class="toc-container"><h3>Table of Contents</h3><ul><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#call">call</a></li><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#build">build</a></li><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#fit_svd">fit_svd</a></li><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#predict">predict</a></li><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#predict_mean">predict_mean</a></li><li style="margin-left: 5px; font-size: 1.0rem;"><a href="#predict_std">predict_std</a></li></ul></div></div>
+  <header class="header">
   <div class="container">
     <h1>Maximum Weight Entropy</h1>
   </div>
 </header>
 
-    <main class="main">
-        
+  <main class="main">
+    
     <div class="object">
     <h1>MaxWEnt</h1>
+    <p class="doc"> MaxWEnt (Maximum Weight Entropy) model, extending TensorFlow's Keras Model.
+This model applies a weight entropy regularization term to encourage diversity
+in the learned parameters of a neural network.
+
+ </p>
+    <div class="args">Arguments: (network, lambda_=1.0) </div>
     <div class="formatted_args"> <ul><li><b>network (tf.keras.Model):</b> The base pretrained neural network model.</li><li><b>lambda_ (float):</b> A regularization coefficient for controlling weight entropy.</li></ul> </div>
     </div>
     
         <div class="method">
-            <h2>build</h2>
-             <div class="args"> (input_shape) </div>
-            <div class="formatted_args"><ul><li><b>input_shape (tuple):</b> The shape of the input data.</li></ul></div>
-        </div>
-        
-        <div class="method">
-            <h2>call</h2>
-             <div class="args"> (inputs, training=False, clip=None, seed=None) </div>
+            <h2 id=call>call</h2>
+            <p class="doc"> Performs a forward pass through the network.
+
+ </p>
+             <div class="args">Arguments: (inputs, training=False, clip=None, seed=None) </div>
             <div class="formatted_args"><ul><li><b>inputs (tf.Tensor):</b> Input data.</li><li><b>training (bool, optional):</b> Whether the model is in training mode. Defaults to False.</li><li><b>clip (float, optional):</b> Clipping value to use on the weight variance.</li><li><b>seed (int, optional):</b> Set the random seed in the layers. It is useful to use the same sampled</li></ul></div>
         </div>
         
         <div class="method">
-            <h2>fit_svd</h2>
-             <div class="args"> (x, batch_size=32) </div>
+            <h2 id=build>build</h2>
+            <p class="doc"> Builds the model by initializing the underlying network if it hasn't been built yet.
+
+ </p>
+             <div class="args">Arguments: (input_shape) </div>
+            <div class="formatted_args"><ul><li><b>input_shape (tuple):</b> The shape of the input data.</li></ul></div>
+        </div>
+        
+        <div class="method">
+            <h2 id=fit_svd>fit_svd</h2>
+            <p class="doc"> Fit the Singular Value Decomposition (SVD) transition matrix on specific
+layers of the network.
+
+ </p>
+             <div class="args">Arguments: (x, batch_size=32) </div>
             <div class="formatted_args"><ul><li><b>x (np.array or tf.data.Dataset):</b> The input data.</li><li><b>batch_size (int, optional):</b> Batch size for processing. Defaults to 32.</li></ul></div>
         </div>
         
         <div class="method">
-            <h2>predict</h2>
-             <div class="args"> (x, batch_size=32, clip=None, seed=None) </div>
+            <h2 id=predict>predict</h2>
+            <p class="doc"> Makes predictions on input data.
+
+ </p>
+             <div class="args">Arguments: (x, batch_size=32, clip=None, seed=None) </div>
             <div class="formatted_args"><ul><li><b>x (np.array or tf.data.Dataset):</b> The input data.</li><li><b>batch_size (int, optional):</b> Batch size for processing. Defaults to 32.</li><li><b>clip (float, optional):</b> Clipping value to use on the weight variance.</li><li><b>seed (int, optional):</b> Set the random seed in the layers. It is useful to use the same sampled</li></ul></div>
         </div>
         
         <div class="method">
-            <h2>predict_mean</h2>
-             <div class="args"> (x, batch_size=32, clip=0.0, n_sample=1) </div>
+            <h2 id=predict_mean>predict_mean</h2>
+            <p class="doc"> Computes the mean prediction over multiple stochastic forward passes.
+
+ </p>
+             <div class="args">Arguments: (x, batch_size=32, clip=0.0, n_sample=1) </div>
             <div class="formatted_args"><ul><li><b>x (np.array or tf.data.Dataset):</b> The input data.</li><li><b>batch_size (int, optional):</b> Batch size for processing. Defaults to 32.</li><li><b>clip (float, optional):</b> Clipping value to use on the weight variance.</li><li><b>n_sample (int, optional):</b> Number of stochastic forward passes. Defaults to 1.</li></ul></div>
         </div>
         
         <div class="method">
-            <h2>predict_std</h2>
-             <div class="args"> (x, batch_size=32, clip=None, n_sample=10) </div>
+            <h2 id=predict_std>predict_std</h2>
+            <p class="doc"> Computes the standard deviation of predictions over multiple stochastic forward passes.
+
+ </p>
+             <div class="args">Arguments: (x, batch_size=32, clip=None, n_sample=10) </div>
             <div class="formatted_args"><ul><li><b>x (np.array or tf.data.Dataset):</b> The input data.</li><li><b>batch_size (int, optional):</b> Batch size for processing. Defaults to 32.</li><li><b>clip (float, optional):</b> Clipping value to use on the weight variance.</li><li><b>n_sample (int, optional):</b> Number of stochastic forward passes. Defaults to 10.</li></ul></div>
         </div>
         
-    </main>
-    <footer class="footer">
+  </main>
+  <footer class="footer">
   <div class="container">
     <p>&copy; 2024 Maxwent documentation. All rights reserved.</p>
   </div>
 </footer>
 
-    </div>
-    <script src="custom.js"></script>
-    </body>
-    </html>
-    
+</div>
+<script src="custom.js"></script>
+</body>
+</html>

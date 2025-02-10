@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="notebook_style.css">
+  <link rel="stylesheet" href="docstring_style.css">
+  <title>./Set_Maxwent_Model_Documentation</title>
+</head>
+<body>
+<div class="page-container">
+  <nav class="bandeau">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="https://github.com/antoinedemathelin/maxwent" target="_blank">GitHub</a></li>
+    <li><a href="1D_Regression_Example.html" target="_blank">Examples</a></li>
+  </ul>
+</nav>
+
+  <div class='bandeau-right'><div class="toc-container"><h3>Table of Contents</h3><ul></ul></div></div>
+  <header class="header">
+  <div class="container">
+    <h1>Maximum Weight Entropy</h1>
+  </div>
+</header>
+
+  <main class="main">
+    
+    <div class="object">
+    <h1>set_maxwent_model</h1>
+    <p class="doc"> Creates a stochastic version of the given model where specific layers are replaced.
+
+This function clones the given model while replacing specific layers as Dense and Conv by their 
+corresponding stochastic version.
+
+IMPORTANT: the model should be pretrained on training data. The weights of the model
+will be used in the stochastic model version as frozen mean weights.
+
+ </p>
+    <div class="args">Arguments: (*args, **kwargs) </div>
+    <div class="formatted_args"> <ul><li><b>model (tf.keras.Model):</b> The original pretrained Keras model to be modified.</li></ul> </div>
+    </div>
+    
+  </main>
+  <footer class="footer">
+  <div class="container">
+    <p>&copy; 2024 Maxwent documentation. All rights reserved.</p>
+  </div>
+</footer>
+
+</div>
+<script src="custom.js"></script>
+</body>
+</html>

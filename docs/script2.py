@@ -3,6 +3,9 @@ import os
 import textwrap
 import re
 
+from bs4 import BeautifulSoup
+
+
 # Define file paths
 HEADER_FILE = "header.html"
 BANDEAU_FILE = "bandeau.html"
@@ -156,7 +159,41 @@ def extract_args_from_docstring(docstring):
     return args_list
 
 
-def generate_doc_html(class_obj):
+def generate_dynamic_toc(content_html):
+    soup = BeautifulSoup(content_html, 'html.parser')
+    toc_items = []
+    
+    # Look for all headers <h1>, <h2>, <h3> etc.
+    for header in soup.find_all(['h2', 'h3', 'h4', 'h5', 'h6']):
+        level = int(header.name[1])  # Get the heading level (h1 -> 1, h2 -> 2, etc.)
+        heading_text = header.get_text(strip=True)
+        
+        # Remove unwanted characters like ¶ using regex (if present)
+        heading_text = re.sub(r'¶', '', heading_text)  # Remove the ¶ character
+        
+        # Clean up any other unwanted characters that might have been copied over
+        heading_text = re.sub(r'[^\x00-\x7F]+', '', heading_text)  # Remove non-ASCII characters
+        
+        # Create an anchor-friendly version of the text (lowercase, replace spaces with hyphens)
+        header_id = header.get('id')
+        if header_id is not None:
+            anchor = header["id"]
+        else:
+            anchor = heading_text.replace(' ', '-').lower()  
+        
+        # Add the header's ID to make it linkable and point to it in the ToC
+        toc_items.append((level, anchor, heading_text))
+    
+    # Generate ToC HTML with internal links to the headers
+    toc_html = '<div class="toc-container"><h3>Table of Contents</h3><ul>'
+    for level, anchor, heading_text in toc_items:
+        toc_html += f'<li style="margin-left: {5 + (level-2) * 20}px; font-size: {1. - 0.1 * (level-2)}rem;"><a href="#{anchor}">{heading_text}</a></li>'
+    toc_html += '</ul></div>'
+    
+    return toc_html
+
+
+def generate_docstring_html(class_obj):
     # Retrieve the class name and docstring
     class_name = class_obj.__name__
     class_doc = class_obj.__doc__
@@ -190,7 +227,6 @@ def generate_doc_html(class_obj):
 
     header = read_file(HEADER_FILE)
     bandeau_left = read_file(BANDEAU_FILE)  # Left Bandeau
-    bandeau_right = "<div class='bandeau-right'></div>"  # Right Bandeau (to insert ToC)
     footer = read_file(FOOTER_FILE)
     
     args_list = extract_args_from_docstring(class_doc)
@@ -199,9 +235,13 @@ def generate_doc_html(class_obj):
         formatted_args_object += f"<li><b>{arg_name} ({arg_type}):</b> {arg_desc}</li>"
     formatted_args_object += "</ul>"
 
+    signature = inspect.signature(class_obj.__init__)
+    args = str(signature).replace("self, ", "")
+
     content = f"""
     <div class="object">
     <h1>{class_name}</h1>
+    <div class="args">Arguments: {args} </div>
     <div class="formatted_args"> {formatted_args_object} </div>
     </div>
     """
@@ -210,11 +250,16 @@ def generate_doc_html(class_obj):
     for method in method_docs:
         content += f"""
         <div class="method">
-            <h2>{method['name']}</h2>
-             <div class="args"> {method['args']} </div>
+            <h2 id={method['name']}>{method['name']}</h2>
+             <div class="args">Arguments: {method['args']} </div>
             <div class="formatted_args">{method['formatted_args']}</div>
         </div>
         """
+
+    toc_html = generate_dynamic_toc(content)
+    
+    # Inject the ToC into the right bandeau (right sidebar)
+    bandeau_right = "<div class='bandeau-right'>" + toc_html + "</div>"
 
     html_content = f"""
     <!DOCTYPE html>
