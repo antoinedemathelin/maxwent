@@ -18,19 +18,19 @@ MaxWEnt is a method designed for epistemic uncertainty quantification in deep le
         <a href="https://antoinedemathelin.github.io/maxwent/1D_Regression_Example.html">
             <br>
             <b>Regression Example</b>
-        </a>
             <br>
             <br>
             <img src="https://github.com/antoinedemathelin/maxwent/blob/42cee2020a52850666b6abb521c30f5ef1d3ce9e/docs/imgs/regression1d.png">
+    </a>
     </td>
     <td width="50%">
         <a href="https://antoinedemathelin.github.io/maxwent/2D_Classification_Example.html">
             <br>
             <b>Classification Example</b>
-        </a>
             <br>
             <br>
             <img src="https://github.com/antoinedemathelin/maxwent/blob/a016e60b39d753459871f9bdc5fc8b7973ac2f2d/docs/imgs/classification2d.png">
+    </a>
     </td>
 </table>
 
